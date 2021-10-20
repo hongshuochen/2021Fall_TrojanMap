@@ -6,7 +6,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
-
+#include <unordered_map>
 // A Node is the location of one point in the map.
 class Node {
   public:
@@ -16,14 +16,13 @@ class Node {
     double lat;        // Latitude
     double lon;        // Longitude
     std::string name;  // Name of the location. E.g. "Bank of America".
-    std::vector<std::string>
-        neighbors;  // List of the ids of all neighbor points.
+    std::vector<std::string> neighbors;  // List of the ids of all neighbor points.
 };
 
 class TrojanMap {
  public:
-   // A map of ids to Nodes.
-  std::map<std::string, Node> data;
+  // A map of ids to Nodes.
+  std::unordered_map<std::string, Node> data;
   
   //-----------------------------------------------------
   // TODO: You do not and should not change the following functions:
@@ -73,14 +72,14 @@ class TrojanMap {
   // Get the name of a Node given its id.
   std::string GetName(std::string id);
 
-  // Get the Node given its name.
-  Node GetNode(std::string name);
+  // Get the id given its name.
+  std::string GetID(std::string name);
 
   // Get the neighbor ids of a Node.
   std::vector<std::string> GetNeighborIDs(std::string id);
 
   // Get the distance between 2 nodes.
-  double CalculateDistance(const Node &a, const Node &b);
+  double CalculateDistance(const std::string &a, const std::string &b);
 
   // Calculates the total path length for the locations inside the vector.
   double CalculatePathLength(const std::vector<std::string> &path);
@@ -128,6 +127,9 @@ class TrojanMap {
   // cycle or not in this subgraph.
   // vector square has 4 elements: left/right/top/bottom bound in order.
   bool CycleDetection(std::vector<double> &square);
+
+  // Given a location id and k, find the k closest points on the map
+  std::vector<std::string> FindKClosestPoints(std::string name, int k);
   
   //----------------------------------------------------- User-defined functions
 };

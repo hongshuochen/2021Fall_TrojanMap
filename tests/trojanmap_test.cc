@@ -1,6 +1,6 @@
 #include <map>
 #include <vector>
-
+#include <unordered_set>
 #include "gtest/gtest.h"
 #include "src/lib/trojanmap.h"
 
@@ -10,16 +10,48 @@ TEST(TrojanMapTest, Autocomplete) {
   m.CreateGraphFromCSVFile();
   // Test the simple case
   auto names = m.Autocomplete("Ch");
-  std::vector<std::string> gt1 = {"ChickfilA", "Chipotle Mexican Grill"}; // groundtruth for "Ch"
-  EXPECT_EQ(names, gt1);
+  std::unordered_set<std::string> gt1 = {"ChickfilA", "Chipotle Mexican Grill"}; // groundtruth for "Ch"
+  int success = 0;
+  for (auto& n: names) {
+    EXPECT_EQ(gt1.count(n) > 0, true);
+    if (gt1.count(n) > 0){
+      success++;
+    }
+  }
+  EXPECT_EQ(success, gt1.size());
   // Test the lower case
   names = m.Autocomplete("ch");
-  std::vector<std::string> gt2 = {"ChickfilA", "Chipotle Mexican Grill"}; // groundtruth for "ch"
-  EXPECT_EQ(names, gt2);
+  std::unordered_set<std::string> gt2 = {"ChickfilA", "Chipotle Mexican Grill"}; // groundtruth for "ch"
+  success = 0;
+  for (auto& n: names) {
+    EXPECT_EQ(gt2.count(n) > 0, true);
+    if (gt2.count(n) > 0){
+      success++;
+    }
+  }
+  EXPECT_EQ(success, gt2.size());
   // Test the lower and upper case 
   names = m.Autocomplete("cH"); 
-  std::vector<std::string> gt3 = {"ChickfilA", "Chipotle Mexican Grill"}; // groundtruth for "cH"
-  EXPECT_EQ(names, gt3);
+  std::unordered_set<std::string> gt3 = {"ChickfilA", "Chipotle Mexican Grill"}; // groundtruth for "cH"
+  success = 0;
+  for (auto& n: names) {
+    EXPECT_EQ(gt3.count(n) > 0, true);
+    if (gt3.count(n) > 0){
+      success++;
+    }
+  }
+  EXPECT_EQ(success, gt3.size());
+  // Test the upper case 
+  names = m.Autocomplete("CH"); 
+  std::unordered_set<std::string> gt4 = {"ChickfilA", "Chipotle Mexican Grill"}; // groundtruth for "cH"
+  success = 0;
+  for (auto& n: names) {
+    EXPECT_EQ(gt4.count(n) > 0, true);
+    if (gt4.count(n) > 0){
+      success++;
+    }
+  }
+  EXPECT_EQ(success, gt4.size());
 }
 
 // Test FindPosition function
@@ -38,6 +70,10 @@ TEST(TrojanMapTest, FindPosition) {
   position = m.GetPosition("Target");
   std::pair<double, double> gt3(34.0257016, -118.2843512); // groundtruth for "Target"
   EXPECT_EQ(position, gt3);
+  // Test Unknown
+  position = m.GetPosition("XXX");
+  std::pair<double, double> gt4(-1, -1);
+  EXPECT_EQ(position, gt4);
 }
 
 // Test CalculateShortestPath_Dijkstra function 1
@@ -45,7 +81,7 @@ TEST(TrojanMapTest, CalculateShortestPath_Dijkstra) {
   TrojanMap m;
   m.CreateGraphFromCSVFile();
   // Test from Ralphs to ChickfilA
-  auto path = m.CalculateShortestPath_Dijkstra("Ralphs", "ChickfilA");
+  auto path = m.CalculateShortestPath_Bellman_Ford("Ralphs", "ChickfilA");
   std::vector<std::string> gt{
       "2578244375", "5559640911", "6787470571", "6808093910", "6808093913", "6808093919", "6816831441",
       "6813405269", "6816193784", "6389467806", "6816193783", "123178876", "2613117895", "122719259",
@@ -77,7 +113,7 @@ TEST(TrojanMapTest, CalculateShortestPath_Dijkstra) {
 TEST(TrojanMapTest, CalculateShortestPath_Dijkstra2) {
   TrojanMap m;
   m.CreateGraphFromCSVFile();
-  auto path = m.CalculateShortestPath_Dijkstra("Target", "Popeyes Louisiana Kitchen");
+  auto path = m.CalculateShortestPath_Bellman_Ford("Target", "Popeyes Louisiana Kitchen");
   // Test from Target to Popeyes Louisiana Kitchen
   std::vector<std::string> gt{
       "5237417650", "6813379479", "5237381975", "4399698012", "4399698013", "4399698011", "4399698010", 
@@ -183,5 +219,17 @@ TEST(TrojanMapTest, TopologicalSort) {
   std::vector<std::vector<std::string>> dependencies = {{"Cardinal Gardens","Coffee Bean1"}, {"Cardinal Gardens","CVS"}, {"Coffee Bean1","CVS"}};
   auto result = m.DeliveringTrojan(location_names, dependencies);
   std::vector<std::string> gt ={"Cardinal Gardens", "Coffee Bean1","CVS"};
+  EXPECT_EQ(result, gt);
+}
+
+
+// Test K closest points
+TEST(TrojanMapTest, FindKClosestPoints) {
+  TrojanMap m;
+  m.CreateGraphFromCSVFile();
+  auto result = m.FindKClosestPoints("Ralphs",10);
+  std::vector<std::string> gt{
+  "3724125231", "358791507", "7158047272", "358828789", "358794109",
+  "5757277355", "7204975815", "6510335101", "6807374558", "6510335102"};
   EXPECT_EQ(result, gt);
 }

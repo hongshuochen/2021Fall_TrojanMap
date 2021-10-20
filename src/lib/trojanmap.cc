@@ -48,7 +48,8 @@ void TrojanMap::PrintMenu() {
       "* 4. Travelling salesman problem                              \n"
       "* 5. Cycle Detection                                          \n"
       "* 6. Topological Sort                                         \n"
-      "* 7. Exit                                                     \n"
+      "* 7. Find K Closest Points                                    \n"
+      "* 8. Exit                                                     \n"
       "**************************************************************\n";
   std::cout << menu << std::endl;
   std::string input;
@@ -151,7 +152,7 @@ void TrojanMap::PrintMenu() {
   {
     menu =
         "**************************************************************\n"
-        "* 4. Travelling salesman problem                              \n"
+        "* 4. Traveling salesman problem                              \n"
         "**************************************************************\n";
     std::cout << menu << std::endl;
     menu = "In this task, we will select N random points on the map and you need to find the path to travel these points and back to the start point.";
@@ -275,12 +276,12 @@ void TrojanMap::PrintMenu() {
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     menu = "*************************Results******************************";
     std::cout << menu << std::endl;
-    std::cout << "Topological Sorting Reults:" << std::endl;
+    std::cout << "Topological Sorting Results:" << std::endl;
     for (auto x : result) std::cout << x << std::endl;
     std::vector<std::string> node_ids;
     for (auto x: result) {
-      Node node = GetNode(x);
-      node_ids.push_back(node.id);
+      std::string id = GetID(x);
+      node_ids.push_back(id);
     }
     PlotPointsOrder(node_ids);
     menu = "**************************************************************\n";
@@ -289,11 +290,43 @@ void TrojanMap::PrintMenu() {
     PrintMenu();
     break;
   }
-  case '7':
+    case '7':
+  {
+    menu =
+        "**************************************************************\n"
+        "* 7. Find K Closest Points                                    \n"
+        "**************************************************************\n";
+    std::cout << menu << std::endl;
+    
+    menu = "Please input the locations:";
+    std::cout << menu;
+    std::string origin;
+    getline(std::cin, origin);
+    menu = "Please input k:";
+    std::cout << menu;
+    getline(std::cin, input);
+    int k = std::stoi(input);
+    
+    auto start = std::chrono::high_resolution_clock::now();
+    auto result = FindKClosestPoints(origin, k);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    menu = "*************************Results******************************";
+    std::cout << menu << std::endl;
+    std::cout << "Find K Closest Points Results:" << std::endl;
+    for (auto x : result) std::cout << data[x].name << std::endl;
+    PlotPoints(result);
+    menu = "**************************************************************\n";
+    std::cout << menu;
+    std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl << std::endl;
+    PrintMenu();
+    break;
+  }
+  case '8':
     break;
   default:
   {
-    std::cout << "Please select 1 - 7." << std::endl;
+    std::cout << "Please select 1 - 8." << std::endl;
     PrintMenu();
     break;
   }
@@ -528,7 +561,7 @@ std::pair<double, double> TrojanMap::GetPlotLocation(double lat, double lon) {
  * @return {double}         : latitude
  */
 double TrojanMap::GetLat(std::string id) {
-    return -1;
+    return 0;
 }
 
 
@@ -539,7 +572,7 @@ double TrojanMap::GetLat(std::string id) {
  * @return {double}         : longitude
  */
 double TrojanMap::GetLon(std::string id) { 
-    return -1;
+    return 0;
 }
 
 /**
@@ -565,11 +598,11 @@ std::vector<std::string> TrojanMap::GetNeighborIDs(std::string id) {
 /**
  * CalculateDistance: Get the distance between 2 nodes. 
  * 
- * @param  {Node} a  : node a
- * @param  {Node} b  : node b
+ * @param  {std::string} a  : a_id
+ * @param  {std::string} b  : b_id
  * @return {double}  : distance in mile
  */
-double TrojanMap::CalculateDistance(const Node &a, const Node &b) {
+double TrojanMap::CalculateDistance(const std::string &a_id, const std::string &b_id) {
   // Do not change this function
   // TODO: Use Haversine Formula:
   // dlon = lon2 - lon1;
@@ -580,6 +613,8 @@ double TrojanMap::CalculateDistance(const Node &a, const Node &b) {
 
   // where 3961 is the approximate radius of the earth at the latitude of
   // Washington, D.C., in miles
+  Node a = data[a_id];
+  Node b = data[b_id];
   double dlon = (b.lon - a.lon) * M_PI / 180.0;
   double dlat = (b.lat - a.lat) * M_PI / 180.0;
   double p = pow(sin(dlat / 2),2.0) + cos(a.lat * M_PI / 180.0) * cos(b.lat * M_PI / 180.0) * pow(sin(dlon / 2),2.0);
@@ -594,7 +629,11 @@ double TrojanMap::CalculateDistance(const Node &a, const Node &b) {
  * @return {double}                        : path length
  */
 double TrojanMap::CalculatePathLength(const std::vector<std::string> &path) {
+  // Do not change this function
   double sum = 0;
+  for (int i = 0;i < path.size()-1; i++) {
+    sum += CalculateDistance(path[i], path[i+1]);
+  }
   return sum;
 }
 
@@ -622,15 +661,15 @@ std::pair<double, double> TrojanMap::GetPosition(std::string name) {
 }
 
 /**
- * GetNode: Given a location name, return the node.
+ * GetID: Given a location name, return the id. 
+ * If the node does not exist, return an empty string. 
  *
  * @param  {std::string} name          : location name
- * @return {Node}  : node
+ * @return {int}  : id
  */
-Node TrojanMap::GetNode(std::string name) {
-  Node n;
-  n.id = "";
-  return n;
+std::string TrojanMap::GetID(std::string name) {
+  std::string res = "";
+  return res;
 }
 
 /**
@@ -659,6 +698,25 @@ std::vector<std::string> TrojanMap::CalculateShortestPath_Bellman_Ford(
     std::string location1_name, std::string location2_name){
   std::vector<std::string> path;
   return path;
+}
+
+/**
+ * Travelling salesman problem: Given a list of locations, return the shortest
+ * path which visit all the places and back to the start point.
+ *
+ * @param  {std::vector<std::string>} input : a list of locations needs to visit
+ * @return {std::pair<double, std::vector<std::vector<std::string>>} : a pair of total distance and the all the progress to get final path
+ */
+std::pair<double, std::vector<std::vector<std::string>>> TrojanMap::TravellingTrojan(
+                                    std::vector<std::string> &location_ids) {
+  std::pair<double, std::vector<std::vector<std::string>>> results;
+  return results;
+}
+
+std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_2opt(
+      std::vector<std::string> &location_ids){
+  std::pair<double, std::vector<std::vector<std::string>>> results;
+  return results;
 }
 
 /**
@@ -700,25 +758,6 @@ std::vector<std::string> TrojanMap::DeliveringTrojan(std::vector<std::string> &l
 }
 
 /**
- * Travelling salesman problem: Given a list of locations, return the shortest
- * path which visit all the places and back to the start point.
- *
- * @param  {std::vector<std::string>} input : a list of locations needs to visit
- * @return {std::pair<double, std::vector<std::vector<std::string>>} : a pair of total distance and the all the progress to get final path
- */
-std::pair<double, std::vector<std::vector<std::string>>> TrojanMap::TravellingTrojan(
-                                    std::vector<std::string> &location_ids) {
-  std::pair<double, std::vector<std::vector<std::string>>> results;
-  return results;
-}
-
-std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_2opt(
-      std::vector<std::string> &location_ids){
-  std::pair<double, std::vector<std::vector<std::string>>> results;
-  return results;
-}
-
-/**
  * Cycle Detection: Given four points of the square-shape subgraph, return true if there
  * is a cycle path inside the square, false otherwise.
  * 
@@ -727,4 +766,16 @@ std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_2opt(
  */
 bool TrojanMap::CycleDetection(std::vector<double> &square) {
   return false;
+}
+
+/**
+ * FindKClosetPoints: Given a location id and k, find the k closest points on the map
+ * 
+ * @param {std::string} name: the name of the location
+ * @param {int} k: number of closest points
+ * @return {std::vector<std::string>}: k closest points
+ */
+std::vector<std::string> TrojanMap::FindKClosestPoints(std::string name, int k) {
+  std::vector<std::string> res;
+  return res;
 }

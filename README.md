@@ -1,10 +1,10 @@
-# EE599 Final Project - Spring 2021 - TrojanMap
+# EE538 Final Project - Fall 2021 - TrojanMap
 
 ## Deadline: 
 
-Video Presentation: Wednesday, April 28 by 23:59 pm
+Video Presentation: Friday, December 3 by 2 pm
 
-Code submission: Friday, April 30 by 23:59 pm
+Code submission: Monday, December 5 by 23:59 pm
 
 ## TrojanMap
 
@@ -46,7 +46,7 @@ For visualization, we use OpenCV library. You will use this library as a black b
 Use the following commands to install OpenCV.
 
 ```shell
-$ cd 2021Spring_TrojanMap
+$ cd 2021Fall_TrojanMap
 $ git clone https://github.com/opencv/opencv.git
 ```
 
@@ -121,16 +121,17 @@ If everything is correct, this menu will show up.
 ```shell
 Torjan Map
 **************************************************************
-* Select the function you want to execute.
-* 1. Autocomplete
-* 2. Find the position
-* 3. CalculateShortestPath
-* 4. Travelling salesman problem
-* 5. Cycle Detection
-* 6. Topological Sort
-* 7. Exit
+* Select the function you want to execute.                    
+* 1. Autocomplete                                             
+* 2. Find the position                                        
+* 3. CalculateShortestPath                                    
+* 4. Travelling salesman problem                              
+* 5. Cycle Detection                                          
+* 6. Topological Sort                                         
+* 7. Find K Closest Points                                    
+* 8. Exit                                                     
 **************************************************************
-Please select 1 - 7:
+Please select 1 - 8:
 ```
 
 ## Test the program
@@ -256,7 +257,7 @@ Time taken by function: 45149 microseconds
 
 <p align="center"><img src="img/Routing.png" alt="Routing" width="500"/></p>
 
-## Step 4: The Travelling Trojan Problem (AKA Traveling Salesman!)
+## Step 4: The Traveling Trojan Problem (AKA Traveling Salesman!)
 
 In this section, we assume that a complete graph is given to you. That means each node is a neighbor of all other nodes.
 Given a vector of location ids, assume every location can reach all other locations in the vector (i.e. assume that the vector of location ids is a complete graph).
@@ -266,7 +267,7 @@ You will need to return the progress to get the shortest route which will then b
 
 We will use the following algorithms:
 
-- Brute Force Method
+- Backtracking
 ```c++
 std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan(
       std::vector<std::string> &location_ids);
@@ -423,8 +424,50 @@ Time taken by function: 43 microseconds
 
 In the user interface, we read the locations and dependencies from `topologicalsort_dependencies.csv` and `topologicalsort_locations.csv` to modify your input there.
 
+## Step 7: Find K closest points
+
+Given a location name and a integer k , find the k closest locations with name on the map and return a vector of string ids. 
+
+We will use the following algorithms:
+
+- Backtracking
+```c++
+std::vector<std::string> FindKClosestPoints(std::string name, int k);
+```
+
+Please report and compare the time spent by this algorithm and show the points on the map.
+
+```shell
+**************************************************************
+* 7. Find K Closest Points                                    
+**************************************************************
+
+Please input the locations:Ralphs
+Please input k:5
+*************************Results******************************
+Find K Closest Points Results:
+St Agnes Church
+Saint Agnes Elementary School
+Warning Skate Shop
+Menlo AvenueWest Twentyninth Street Historic District
+Vermont Elementary School
+**************************************************************
+Time taken by function: 1632 microseconds
+```
+
+<p align="center"><img src="img/Kclosest.png" alt="Kclosest" width="500"/></p>
+
+
 ## Reporting Runtime:
 For each menu item, your program should show the time it took to finish each task.
+
+Please make sure to provide various examples when you report the runtime. For example for topological sort, show an example with few nodes and another example with 10 or more nodes. The idea is to see how your runtime grows as input size grows.
+
+## Runtime Comparison
+For shortest path algorithms, you should compare solving the same problem with different algorithms (Dijkstra and Bellman-Ford). Please show the results on at least 10 different examples.
+
+Similarly for TSP problem, please provide various examples that show the runtime comparison. In particular, you should show at what point using the exhaustive search is not practical and compare the same input with the heuristic implementation.
+
 
 ## Report and Rubrics:
 
@@ -441,9 +484,9 @@ Your README file should include two sections:
 
 ### Rubrics:
 
-1. Implementation of auto complete: 10 points.
+1. Implementation of auto complete: 5 points.
 2. Implementation of GetPosition: 5 points.
-3. Implementation of shortest path: 20 points.
+3. Implementation of shortest path: 15 points.
    1. Bellman-Ford implementation
    2. Dijkstra implementation
    3. Plot two paths, and measure and report time spent by two algorithms.
@@ -458,15 +501,18 @@ Your README file should include two sections:
    2. Return the correct order and plot those point on the map
 6. Creating reasonable unit tests: 10 points.
    1. Three different unit tests for each item.
-7. Video presentation and report: 10 points.
+7. Find K closest points: 10 points.
+   1. Return the correct ids and draw the points.
+8. Video presentation and report: 10 points.
 
-8. **Extra credit items**: Maximum of 20 points:
+9. **Extra credit items**: Maximum of 20 points:
    1. [3-opt](http://cs.indstate.edu/~zeeshan/aman.pdf): 10 points.
    2. [Genetic algorithm](https://www.geeksforgeeks.org/traveling-salesman-problem-using-genetic-algorithm/) implementation for Travelling Trojan: 10 points
    3. Create dynamic and animated UI using [ncurses](https://en.wikipedia.org/wiki/Ncurses): 10 points
       - You could check https://github.com/ourarash/ncurses_bazel
       - Please develope your own UI.
-      - example
+      - Example
+      - Accurate measurement of your algorithm runtime using Google Benchmark while sweeping the input size and providing a diagram of how the runtime grows based on the input size.
 <p align="center"><img src="img/ncurses example.gif" alt="example" width="500"/></p>
    Note: For Ubuntu, you main need to use the following command to prevent errors.
    

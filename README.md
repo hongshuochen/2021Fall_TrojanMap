@@ -442,17 +442,22 @@ Please report and compare the time spent by this algorithm and show the points o
 * 7. Find K Closest Points                                    
 **************************************************************
 
+7
+**************************************************************
+* 7. Find K Closest Points                                    
+**************************************************************
+
 Please input the locations:Ralphs
 Please input k:5
 *************************Results******************************
 Find K Closest Points Results:
-St Agnes Church
-Saint Agnes Elementary School
-Warning Skate Shop
-Menlo AvenueWest Twentyninth Street Historic District
-Vermont Elementary School
+1 St Agnes Church
+2 Saint Agnes Elementary School
+3 Warning Skate Shop
+4 Menlo AvenueWest Twentyninth Street Historic District
+5 Vermont Elementary School
 **************************************************************
-Time taken by function: 1632 microseconds
+Time taken by function: 1975 microseconds
 ```
 
 <p align="center"><img src="img/Kclosest.png" alt="Kclosest" width="500"/></p>

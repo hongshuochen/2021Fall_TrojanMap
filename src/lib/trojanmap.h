@@ -55,6 +55,9 @@ class TrojanMap {
   // Given a vector of location ids draws the points with their order on the map (no path).
   void PlotPointsOrder(std::vector<std::string> &location_ids);
 
+  // Given a vector of location ids and origin, draws the points with their label.
+  void PlotPointsLabel(std::vector<std::string> &location_ids, std::string origin);
+
   // Create the videos of the progress to get the path
   void CreateAnimation(std::vector<std::vector<std::string>>);
 

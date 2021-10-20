@@ -314,8 +314,12 @@ void TrojanMap::PrintMenu() {
     menu = "*************************Results******************************";
     std::cout << menu << std::endl;
     std::cout << "Find K Closest Points Results:" << std::endl;
-    for (auto x : result) std::cout << data[x].name << std::endl;
-    PlotPoints(result);
+    int cnt = 1;
+    for (auto x : result) { 
+      std::cout << cnt << " " << data[x].name << std::endl;
+      cnt++;
+    }
+    PlotPointsLabel(result, GetID(origin));
     menu = "**************************************************************\n";
     std::cout << menu;
     std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl << std::endl;
@@ -505,6 +509,28 @@ void TrojanMap::PlotPointsOrder(std::vector<std::string> &location_ids) {
   cv::waitKey(1);
 }
 
+/**
+ * PlotPoints: Given a vector of location ids draws the points on the map (no path).
+ * 
+ * @param  {std::vector<std::string>} location_ids : points
+ */
+void TrojanMap::PlotPointsLabel(std::vector<std::string> &location_ids, std::string origin) {
+  std::string image_path = cv::samples::findFile("src/lib/input.jpg");
+  cv::Mat img = cv::imread(image_path, cv::IMREAD_COLOR);
+  int cnt = 1;
+  auto result = GetPlotLocation(data[origin].lat, data[origin].lon);
+  cv::circle(img, cv::Point(result.first, result.second), DOT_SIZE,
+               cv::Scalar(0, 255, 0), cv::FILLED);
+  for (auto x : location_ids) {
+    auto result = GetPlotLocation(data[x].lat, data[x].lon);
+    cv::circle(img, cv::Point(result.first, result.second), DOT_SIZE,
+               cv::Scalar(0, 0, 255), cv::FILLED);
+    cv::putText(img, std::to_string(cnt), cv::Point(result.first, result.second), cv::FONT_HERSHEY_DUPLEX, 1.0, CV_RGB(255, 0, 0), 2);
+    cnt++;
+  }
+  cv::imshow("TrojanMap", img);
+  cv::waitKey(1);
+}
 
 /**
  * CreateAnimation: Create the videos of the progress to get the path

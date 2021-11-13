@@ -4,7 +4,7 @@
 
 Video Presentation: Friday, December 3 by 2 pm
 
-Code submission: Monday, December 5 by 23:59 pm
+Code submission: Sunday, December 5 by 23:59 pm
 
 ## TrojanMap
 

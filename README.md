@@ -272,7 +272,7 @@ We will use the following algorithms:
 std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_Brute_force(
       std::vector<std::string> &location_ids);
 ```
-- Backtracking (Brute-firce + early backtracking)
+- Backtracking (Brute-force + early backtracking)
 ```c++
 std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan(
       std::vector<std::string> &location_ids);

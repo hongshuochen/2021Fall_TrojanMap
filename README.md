@@ -285,7 +285,7 @@ std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_2opt(
 
 Brute-force and backtracking where we use early backtracking when the current cost is higher than current minimum.
 
-Please report and compare the time spent by these 2 algorithms. 2-opt algorithm may not get the optimal solution. Please show how far your solution is from the optimal solution.
+Please report and compare the time spent by these 3 algorithms. 2-opt algorithm may not get the optimal solution. Please show how far your solution is from the optimal solution.
 
 Show the routes on the map. For each intermediate solution, create a new plot. Your final video presentation should include the changes to your solution.
 

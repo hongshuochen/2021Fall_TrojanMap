@@ -430,7 +430,7 @@ Given a location name and a integer k , find the k closest locations with name o
 
 We will use the following algorithms:
 
-- Backtracking
+- Heap
 ```c++
 std::vector<std::string> FindKClosestPoints(std::string name, int k);
 ```

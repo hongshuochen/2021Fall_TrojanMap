@@ -272,7 +272,7 @@ We will use the following algorithms:
 std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_Brute_force(
       std::vector<std::string> &location_ids);
 ```
-- Backtracking (Brute-force + early backtracking)
+- Brute-force enhanced with early backtracking
 ```c++
 std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan(
       std::vector<std::string> &location_ids);
@@ -504,7 +504,7 @@ Your README file should include two sections:
    3. Plot two paths, and measure and report time spent by two algorithms.
 4. Implementation of Travelling Trojan: 
    1. Brute-force: 5 points.
-   2. Backtracking: 5 points.
+   2. Brute-force enhanced with early backtracking: 5 points.
    3. 2-opt: 10 points.
    4. Animated plot: 5 points.
 4. Implement of Cycle detection: 10 points.

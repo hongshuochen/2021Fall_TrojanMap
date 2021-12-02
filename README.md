@@ -487,7 +487,7 @@ Your final project should be checked into Github. The README of your project is 
 
 ### Report:
 
-Your README file should include two sections:
+Your README file should include four sections:
 
 1. High-level overview of your design (Use diagrams and pictures for your data structures).
 2. Detailed description of each function and its time complexity.

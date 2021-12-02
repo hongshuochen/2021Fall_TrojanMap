@@ -267,7 +267,13 @@ You will need to return the progress to get the shortest route which will then b
 
 We will use the following algorithms:
 
-- Backtracking
+- Brute-force
+```c++
+std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_Brute_force(
+      std::vector<std::string> &location_ids);
+      
+- Backtracking (Brute-firce + early backtracking)
+Brute-force and backtracking where we use early backtracking when the current cost is higher than current minimum.
 ```c++
 std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan(
       std::vector<std::string> &location_ids);
@@ -278,7 +284,7 @@ std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_2opt(
       std::vector<std::string> &location_ids);
 ```
 
-Brute-force and backtracking where we use early backtracking when the current cost is higher than current minimum.
+
 
 Please report and compare the time spent by these 2 algorithms. 2-opt algorithm may not get the optimal solution. Please show how far your solution is from the optimal solution.
 
@@ -498,9 +504,10 @@ Your README file should include two sections:
    2. Dijkstra implementation
    3. Plot two paths, and measure and report time spent by two algorithms.
 4. Implementation of Travelling Trojan: 
-   1. Backtracking: 10 points.
-   2. 2-opt: 10 points.
-   3. Animated plot: 5 points.
+   1. Brute-force: 5 points.
+   2. Backtracking: 5 points.
+   3. 2-opt: 10 points.
+   4. Animated plot: 5 points.
 4. Implement of Cycle detection: 10 points.
    1. Boolean value and draw the cycle if there exists one.
 5. Topological Sort: 10 points.

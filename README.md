@@ -271,9 +271,8 @@ We will use the following algorithms:
 ```c++
 std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_Brute_force(
       std::vector<std::string> &location_ids);
-      
+```
 - Backtracking (Brute-firce + early backtracking)
-Brute-force and backtracking where we use early backtracking when the current cost is higher than current minimum.
 ```c++
 std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan(
       std::vector<std::string> &location_ids);
@@ -284,7 +283,7 @@ std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_2opt(
       std::vector<std::string> &location_ids);
 ```
 
-
+Brute-force and backtracking where we use early backtracking when the current cost is higher than current minimum.
 
 Please report and compare the time spent by these 2 algorithms. 2-opt algorithm may not get the optimal solution. Please show how far your solution is from the optimal solution.
 

@@ -278,6 +278,8 @@ std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_2opt(
       std::vector<std::string> &location_ids);
 ```
 
+Brute-force and backtracking where we use early backtracking when the current cost is higher than current minimum.
+
 Please report and compare the time spent by these 2 algorithms. 2-opt algorithm may not get the optimal solution. Please show how far your solution is from the optimal solution.
 
 Show the routes on the map. For each intermediate solution, create a new plot. Your final video presentation should include the changes to your solution.
@@ -496,7 +498,7 @@ Your README file should include two sections:
    2. Dijkstra implementation
    3. Plot two paths, and measure and report time spent by two algorithms.
 4. Implementation of Travelling Trojan: 
-   1. Brute Force: 10 points.
+   1. Backtracking: 10 points.
    2. 2-opt: 10 points.
    3. Animated plot: 5 points.
 4. Implement of Cycle detection: 10 points.

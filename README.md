@@ -267,7 +267,7 @@ You will need to return the progress to get the shortest route which will then b
 
 We will use the following algorithms:
 
-- Brute-force
+- Brute-force (i.e. generating all permutations, and returning the minimum)
 ```c++
 std::pair<double, std::vector<std::vector<std::string>>> TravellingTrojan_Brute_force(
       std::vector<std::string> &location_ids);
